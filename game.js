@@ -1,29 +1,18 @@
-/*
-  Code modified from:
-  http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
-  using graphics purchased from vectorstock.com
-*/
-
-/* Initialization.
-Here, we create and add our "canvas" to the page.
-We also load all of our images. 
-*/
-
-
 let canvas;
 let ctx;
+let score = 0;
 
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
 canvas.width = 512;
-canvas.height = 480;
+canvas.height = 410;
 document.body.appendChild(canvas);
 
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 30;
+const SECONDS_PER_ROUND = 10;
 let elapsedTime = 0;
 
 function loadImages() {
@@ -32,14 +21,15 @@ function loadImages() {
     // show the background image
     bgReady = true;
   };
-  bgImage.src = "images/background.png";
+  bgImage.src = "images/new-bgimage.jpg";
+  //HERO IMAGE
   heroImage = new Image();
   heroImage.onload = function () {
     // show the hero image
     heroReady = true;
   };
-  heroImage.src = "images/hero.png";
-
+  heroImage.src = "images/new-superman.png";
+//MONSTER IMAGE
   monsterImage = new Image();
   monsterImage.onload = function () {
     // show the monster image
@@ -48,34 +38,15 @@ function loadImages() {
   monsterImage.src = "images/monster.png";
 }
 
-/** 
- * Setting up our characters.
- * 
- * Note that heroX represents the X position of our hero.
- * heroY represents the Y position.
- * We'll need these values to know where to "draw" the hero.
- * 
- * The same applies to the monster.
- */
-
 let heroX = canvas.width / 2;
 let heroY = canvas.height / 2;
 
 let monsterX = 100;
 let monsterY = 100;
 
-let score = 0
 
-/** 
- * Keyboard Listeners
- * You can safely ignore this part, for now. 
- * 
- * This is just to let JavaScript know when the user has pressed a key.
-*/
 let keysDown = {};
 function setupKeyboardListeners() {
-  // Check for keys pressed where key represents the keycode captured
-  // For now, do not worry too much about what's happening here. 
   addEventListener("keydown", function (key) {
     keysDown[key.keyCode] = true;
   }, false);
@@ -85,69 +56,80 @@ function setupKeyboardListeners() {
   }, false);
 }
 
-
-/**
- *  Update game objects - change player position based on key pressed
- *  and check to see if the monster has been caught!
- *  
- *  If you change the value of 5, the player will move at a different rate.
- */
-let update = function () {
-  // Update the time.
-  elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-
-
+function keySet() {
   if (38 in keysDown) { // Player is holding up key
-    heroY -= 5;
+    heroY -= 9;
   }
   if (40 in keysDown) { // Player is holding down key
-    heroY += 5;
+    heroY += 9;
   }
   if (37 in keysDown) { // Player is holding left key
-    heroX -= 5;
+    heroX -= 9;
   }
   if (39 in keysDown) { // Player is holding right key
-    heroX += 5;
+    heroX += 9;
   }
+}
 
-  // Hero going left off screen
+function heroMoveOffScreen () {
   if (heroX <= 0) {
     heroX = canvas.width - 10
   }
-
   // Hero going right off screen
   if (heroX >= canvas.width) {
     heroX = 0
   }
-
   // Hero going up off screen
   if (heroY <= 0) {
     heroY = canvas.height - 10
   }
-
   // Hero going down off screen
   if (heroY >= canvas.height) {
     heroY = 0
   }
+}
 
-  // Check if player and monster collided. Our images
-  // are about 32 pixels big.
-  // console.log('keysDown', keysDown)
-  const heroHasCaughtMonster = heroX <= (monsterX + 32)
-  && monsterX <= (heroX + 32)
-  && heroY <= (monsterY + 32)
-  && monsterY <= (heroY + 32)
+function ifCatchMonster () {
+  const heroHasCaughtMonster = heroX <= (monsterX + 22)
+  && monsterX <= (heroX + 22)
+  && heroY <= (monsterY + 22)
+  && monsterY <= (heroY + 22)
   if (heroHasCaughtMonster) {
     score += 1
+    document.getElementById("score").innerHTML = score;
     monsterX = Math.floor(Math.random() * canvas.width - 10)
     monsterY = Math.floor(Math.random() * canvas.height - 10)
     console.log('score', score)
   }
 };
 
-/**
- * This function, render, runs as often as possible.
- */
+document.getElementById("startGame").click = function beginTime(){
+  setTimeout(function update() {
+    elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+  if (elapsedTime >= SECONDS_PER_ROUND) {
+    return;
+  }
+  keySet()
+  heroMoveOffScreen()
+  ifCatchMonster()
+  }, 3000);
+};
+
+
+
+// let update = function () {
+
+  
+// };  
+
+// document.getElementById("startGame").onclick = setTimeout(update, 5000);
+  
+// let recoredScore = JSON.parse(localStorage.getItem('Score'))
+// document.getElementById("userScore").innerHTML = recoredScore["Cuong"];
+// let myVar;
+// function setBegin () {
+//   myVar = setTimeout(render(), 3000);
+// }
 var render = function () {
   if (bgReady) {
     ctx.drawImage(bgImage, 0, 0);
@@ -158,20 +140,22 @@ var render = function () {
   if (monsterReady) {
     ctx.drawImage(monsterImage, monsterX, monsterY);
   }
-  ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100);
+  ctx.font = '20px Roboto'
+  ctx.fillStyle = "#ff0000"
+  let timeRunning = elapsedTime <= 10;
+  // let timeDisplay = (SECONDS_PER_ROUND - elapsedTime)`, 20, 100);
+  if (timeRunning) {
+    ctx.fillText(`Time remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100); 
+  }
+  else {
+    ctx.fillText("GAME OVER!!", 20, 100);
+  }
 };
 
-/**
- * The main game loop. Most every game will have two distinct parts:
- * update (updates the state of the game, in this case our hero and monster)
- * render (based on the state of our game, draw the right things)
- */
 var main = function () {
-  update(); 
   render();
-  // Request to do this again ASAP. This is a special method
-  // for web browsers. 
-  requestAnimationFrame(main);
+  requestAnimationFrame(main); 
+  beginTime()
 };
 
 // Cross-browser support for requestAnimationFrame.
@@ -180,6 +164,7 @@ var w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
 // Let's play this game!
-loadImages();
-setupKeyboardListeners();
-main();
+loadImages()
+setupKeyboardListeners()
+main()
+

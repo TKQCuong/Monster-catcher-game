@@ -1,0 +1,44 @@
+body {
+    background-color: aqua;
+    margin: 0;
+}
+
+canvas {
+    margin-left: 21.5%;
+}
+#Main-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-heading {
+    background-color: mediumaquamarine;
+    display: flex;
+    height: 70px;
+    font-size: 9px;
+}
+
+#score {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.game-heading h1 {
+    margin: 18.8px;
+}
+
+.ResetButton {
+    display: flex;
+}
+
+.nameHeading {
+    padding-left: 28px;
+}
+
+#playAgain {
+    margin-left: 160px;
+}
+
+#startGame {
+    padding: 15px;
+}
