@@ -3,11 +3,9 @@ body {
     background-color: #c0c0c6;
     margin: 0;
 }
-
 .Main-content {
     height: 60px;
 }
-
 .game-heading {
     background-image: linear-gradient( 1.3deg,  rgba(91,117,163,1) 11.4%, rgba(68,98,128,1) 77% );
     display: flex;
@@ -25,28 +23,22 @@ body {
     font-weight: 600;
     padding: 0;
 }
-
 .game-heading h1 {
     margin: 25px;
 }
-
 .ResetButton {
     display: flex;
 }
-
 .nameHeading {
     padding-left: 140px;
 }
-
 #playAgain {
     height: 70px;
     font-size: 1.1rem;
 }
-
 #startGame {
     padding: 15px;
 }
-
 .second-div {
     background-color: white;
     margin-left: 32rem;
@@ -57,7 +49,6 @@ body {
     justify-content: flex-end;
     flex-direction: column;
 }
-
 #currentName {
     background-image: linear-gradient( 1.3deg,  rgba(91,117,163,1) 11.4%, rgba(68,98,128,1) 77% );
     font-size: 30px;
@@ -65,11 +56,9 @@ body {
     text-align: center;
     font-weight: bold;
 }
-}
 canvas {
     z-index: 10;
 }
-
 #timerSet {
     padding-top: 10px;
     font-size: 16px;
@@ -78,7 +67,6 @@ canvas {
     padding-top: 4px;
     font-size: 16px;
 }
-
 .inputName {
     width: 5rem;
 }
