@@ -2,7 +2,7 @@
 
 Created with love by: `CUONG TRAN`
   
-View online at: 
+View online at: https://wizardly-mclean-b650be.netlify.com
   
 * This is the fun game about Catching Monster that is created by Javascript
 * in 15 seconds, user will move the hero by arrow keys and try to get the monster.
