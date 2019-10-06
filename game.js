@@ -1,3 +1,10 @@
+
+let myAudio = document.createElement("audio");
+myAudio.src = "/sound/bG-music.mp3";
+
+let touchingMonster = document.createElement("audio");
+touchingMonster.src = "/sound/touching-mon.mp3";
+
 let canvas;
 let ctx;
 let score = 0;
@@ -104,6 +111,7 @@ function ifCatchMonster () {
   && heroY <= (monsterY + 22)
   && monsterY <= (heroY + 22)
   if (heroHasCaughtMonster) {
+    touchingMonster.play();
     score += 1
     document.getElementById("score").innerHTML = score;
     monsterX = Math.floor(Math.random() * canvas.width - 10)
@@ -135,6 +143,7 @@ let update = function () {
   keySet()
   heroMoveOffScreen()
   ifCatchMonster()
+  
 };
 
 var render = function () {
@@ -151,10 +160,12 @@ var render = function () {
   ctx.fillStyle = "#ff0000"
   let timeRunning = elapsedTime <= 15;
   if (timeRunning) {
+    myAudio.play();
     ctx.fillText(`Time remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100);
     document.getElementById("timerSet").innerHTML = SECONDS_PER_ROUND - elapsedTime;
   }
   else {
+    myAudio.pause();
     ctx.fillText("GAME OVER!!", 20, 100);
   }
 };

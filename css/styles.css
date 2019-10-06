@@ -21,7 +21,8 @@ body {
 #score {
     font-size: 20px;
     font-weight: 600;
-    padding: 0;
+    padding-top: 7px;
+    color: white;
 }
 .game-heading h1 {
     margin: 25px;
@@ -60,13 +61,22 @@ canvas {
     z-index: 10;
 }
 #timerSet {
-    padding-top: 10px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 4px;
+    color: white;
 }
 #highScore {
+    font-size: 20px;
+    font-weight: 600;
     padding-top: 4px;
-    font-size: 16px;
+    color: white;
 }
 .inputName {
     width: 5rem;
+}
+
+audio {
+    width: 220px;
+    height: 30px;
 }
