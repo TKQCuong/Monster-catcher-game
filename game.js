@@ -1,4 +1,3 @@
-
 let myAudio = document.createElement("audio");
 myAudio.src = "/sound/bG-music.mp3";
 
@@ -20,16 +19,6 @@ let bgImage, heroImage, monsterImage;
 let startTime = Date.now();
 const SECONDS_PER_ROUND = 15;
 let elapsedTime = 0;
-
-const defaultState = {
-  gameStarted: false,
-  currentUser: null,
-  currentHighScore: {
-    user: null,
-    score: null
-  },
-topScore: []
-};
 
 function getAppState() {
   return JSON.parse(localStorage.getItem("scoreSaving")) || defaultState;
@@ -143,7 +132,6 @@ let update = function () {
   keySet()
   heroMoveOffScreen()
   ifCatchMonster()
-  
 };
 
 var render = function () {
