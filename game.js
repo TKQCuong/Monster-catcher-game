@@ -21,7 +21,9 @@ const SECONDS_PER_ROUND = 15;
 let elapsedTime = 0;
 
 function getAppState() {
-  return JSON.parse(localStorage.getItem("scoreSaving")) || defaultState;
+  return JSON.parse(localStorage.getItem("scoreSaving")) || {
+    currentHighScore: 0,
+  };
 }
 function save(scoreSaving) {
   return localStorage.setItem('scoreSaving', JSON.stringify(scoreSaving));
