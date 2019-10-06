@@ -5,45 +5,54 @@ let score = 0;
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
 canvas.width = 512;
-canvas.height = 410;
+canvas.height = 450;
 document.body.appendChild(canvas);
 
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
-
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 10;
+const SECONDS_PER_ROUND = 15;
 let elapsedTime = 0;
+
+const defaultState = {
+  gameStarted: false,
+  currentUser: null,
+  currentHighScore: {
+    user: null,
+    score: null
+  },
+topScore: []
+};
+
+function getAppState() {
+  return JSON.parse(localStorage.getItem("scoreSaving")) || defaultState;
+}
+function save(scoreSaving) {
+  return localStorage.setItem('scoreSaving', JSON.stringify(scoreSaving));
+}
 
 function loadImages() {
   bgImage = new Image();
   bgImage.onload = function () {
-    // show the background image
     bgReady = true;
   };
   bgImage.src = "images/new-bgimage.jpg";
-  //HERO IMAGE
   heroImage = new Image();
   heroImage.onload = function () {
-    // show the hero image
     heroReady = true;
   };
   heroImage.src = "images/new-superman.png";
-//MONSTER IMAGE
   monsterImage = new Image();
   monsterImage.onload = function () {
-    // show the monster image
     monsterReady = true;
   };
   monsterImage.src = "images/monster.png";
-}
-
+};
 let heroX = canvas.width / 2;
 let heroY = canvas.height / 2;
 
 let monsterX = 100;
 let monsterY = 100;
-
 
 let keysDown = {};
 function setupKeyboardListeners() {
@@ -54,7 +63,7 @@ function setupKeyboardListeners() {
   addEventListener("keyup", function (key) {
     delete keysDown[key.keyCode];
   }, false);
-}
+};
 
 function keySet() {
   if (38 in keysDown) { // Player is holding up key
@@ -69,7 +78,7 @@ function keySet() {
   if (39 in keysDown) { // Player is holding right key
     heroX += 9;
   }
-}
+};
 
 function heroMoveOffScreen () {
   if (heroX <= 0) {
@@ -87,7 +96,7 @@ function heroMoveOffScreen () {
   if (heroY >= canvas.height) {
     heroY = 0
   }
-}
+};
 
 function ifCatchMonster () {
   const heroHasCaughtMonster = heroX <= (monsterX + 22)
@@ -99,37 +108,35 @@ function ifCatchMonster () {
     document.getElementById("score").innerHTML = score;
     monsterX = Math.floor(Math.random() * canvas.width - 10)
     monsterY = Math.floor(Math.random() * canvas.height - 10)
-    console.log('score', score)
+
+    const scoreSaving = getAppState();
+    if (scoreSaving.currentHighScore < score) {
+      scoreSaving.currentHighScore = score;
+      save(scoreSaving)
+    }
+    if (scoreSaving.currentUser != document.getElementById("inputName").value) {
+      scoreSaving.currentUser = document.getElementById("inputName").value;
+      save(scoreSaving)
+    }
+    if(document.getElementById("inputName").value == 0) {
+      scoreSaving.currentUser = 'Anomynous';
+      save(scoreSaving)
+    }
+    document.getElementById('highScore').innerHTML = scoreSaving.currentHighScore;
+    document.getElementById("currentName").innerHTML = scoreSaving.currentUser;
   }
 };
 
-document.getElementById("startGame").click = function beginTime(){
-  setTimeout(function update() {
-    elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+let update = function () {
+  elapsedTime = Math.floor((Date.now() - startTime) / 1000);
   if (elapsedTime >= SECONDS_PER_ROUND) {
     return;
   }
   keySet()
   heroMoveOffScreen()
   ifCatchMonster()
-  }, 3000);
 };
 
-
-
-// let update = function () {
-
-  
-// };  
-
-// document.getElementById("startGame").onclick = setTimeout(update, 5000);
-  
-// let recoredScore = JSON.parse(localStorage.getItem('Score'))
-// document.getElementById("userScore").innerHTML = recoredScore["Cuong"];
-// let myVar;
-// function setBegin () {
-//   myVar = setTimeout(render(), 3000);
-// }
 var render = function () {
   if (bgReady) {
     ctx.drawImage(bgImage, 0, 0);
@@ -142,10 +149,10 @@ var render = function () {
   }
   ctx.font = '20px Roboto'
   ctx.fillStyle = "#ff0000"
-  let timeRunning = elapsedTime <= 10;
-  // let timeDisplay = (SECONDS_PER_ROUND - elapsedTime)`, 20, 100);
+  let timeRunning = elapsedTime <= 15;
   if (timeRunning) {
-    ctx.fillText(`Time remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100); 
+    ctx.fillText(`Time remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100);
+    document.getElementById("timerSet").innerHTML = SECONDS_PER_ROUND - elapsedTime;
   }
   else {
     ctx.fillText("GAME OVER!!", 20, 100);
@@ -153,13 +160,11 @@ var render = function () {
 };
 
 var main = function () {
-  render();
-  requestAnimationFrame(main); 
-  beginTime()
+  render()
+  requestAnimationFrame(main)
+  update()
 };
 
-// Cross-browser support for requestAnimationFrame.
-// Safely ignore this line. It's mostly here for people with old web browsers.
 var w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
@@ -167,4 +172,3 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 loadImages()
 setupKeyboardListeners()
 main()
-

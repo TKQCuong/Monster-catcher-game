@@ -1,30 +1,33 @@
 body {
-    background-color: aqua;
+    /* background-image: linear-gradient( 109.6deg,  rgba(156,214,177,1) 11.2%, rgba(180,207,157,1) 21.5%, rgba(203,198,145,1) 32.2%, rgba(222,188,144,1) 43.6%, rgba(234,179,153,1) 54.4%, rgba(241,181,171,1) 64.5%, rgba(240,192,206,1) 74.6%, rgba(240,208,225,1) 87.2%, rgba(255,255,255,1) 100.2%, rgba(255,255,255,1) 100.2% ); */
+    background-color: #c0c0c6;
     margin: 0;
 }
 
-canvas {
-    margin-left: 21.5%;
-}
-#Main-content {
-    display: flex;
-    justify-content: space-between;
+.Main-content {
+    height: 60px;
 }
 
 .game-heading {
-    background-color: mediumaquamarine;
+    background-image: linear-gradient( 1.3deg,  rgba(91,117,163,1) 11.4%, rgba(68,98,128,1) 77% );
     display: flex;
-    height: 70px;
+    height: 60px;
     font-size: 9px;
+    width: 64.8%;
 }
-
+#signIn {
+    /* padding: 24px; */
+    font-size: 15px;
+    width: 5.5rem;
+}
 #score {
     font-size: 20px;
     font-weight: 600;
+    padding: 0;
 }
 
 .game-heading h1 {
-    margin: 18.8px;
+    margin: 25px;
 }
 
 .ResetButton {
@@ -32,13 +35,50 @@ canvas {
 }
 
 .nameHeading {
-    padding-left: 28px;
+    padding-left: 140px;
 }
 
 #playAgain {
-    margin-left: 160px;
+    height: 70px;
+    font-size: 1.1rem;
 }
 
 #startGame {
     padding: 15px;
+}
+
+.second-div {
+    background-color: white;
+    margin-left: 32rem;
+    height: 450px;
+    width: 317px;
+    background-image: linear-gradient( 1.3deg, rgba(91,117,163,1) 11.4%, rgba(68,98,128,1) 77% );
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+#currentName {
+    background-image: linear-gradient( 1.3deg,  rgba(91,117,163,1) 11.4%, rgba(68,98,128,1) 77% );
+    font-size: 30px;
+    height: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+}
+canvas {
+    z-index: 10;
+}
+
+#timerSet {
+    padding-top: 10px;
+    font-size: 16px;
+}
+#highScore {
+    padding-top: 4px;
+    font-size: 16px;
+}
+
+.inputName {
+    width: 5rem;
 }
